@@ -1,6 +1,6 @@
 package clienteCelular;
 
-import server.Produto;
+import server.Product;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,8 +12,8 @@ public class Client {
 
             Registry registry = LocateRegistry.getRegistry("127.0.0.1", 9000);
 
-            Produto computador = (Produto) registry.lookup("Celular");
-            boolean estaVendido = computador.vender();
+            Product computador = (Product) registry.lookup("Celular");
+            boolean estaVendido = computador.reduceQty();
 
             if(estaVendido){
                 System.out.println("Celular vendido com exito!");

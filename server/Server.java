@@ -14,14 +14,14 @@ public class Server {
 
             // Criamos
 
-            ProdutoImplementacao computador = new ProdutoImplementacao("Computador", "Lenovo laptop", 800000.0);
-            ProdutoImplementacao celular = new ProdutoImplementacao("Celular", "MI 9 mobile", 24000.0);
-            computador.adicionaEstoque(1);
+            ProductItem computador = new ProductItem("Computador", "Lenovo laptop", 800000.0);
+            ProductItem celular = new ProductItem("Celular", "MI 9 mobile", 24000.0);
+            computador.adicionaEstoque(10);
             celular.adicionaEstoque(1);
 
             // exportamos o objeto antes de colocar no registry
-            Produto stub1 = (Produto) UnicastRemoteObject.exportObject(computador, 0);
-            Produto stub2 = (Produto) UnicastRemoteObject.exportObject(celular, 0);
+            Product stub1 = (Product) UnicastRemoteObject.exportObject(computador, 0);
+            Product stub2 = (Product) UnicastRemoteObject.exportObject(celular, 0);
 
             // Cria do Registry
             Registry registry = LocateRegistry.createRegistry(9000);
