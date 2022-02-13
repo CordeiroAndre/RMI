@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 public interface Product extends Remote {
     // Define product behaviour (Methods)
 
-     int getId() throws RemoteException;
+     String getId() throws RemoteException;
      String getName() throws RemoteException;
      String getDescription() throws RemoteException;
      double getPrice() throws RemoteException;

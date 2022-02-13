@@ -1,3 +1,5 @@
+package model;
+
 import remote.Product;
 
 import java.rmi.*;
@@ -12,16 +14,25 @@ public class ProductItem implements Product {
     private String description;
     private double price;
     private int quantidadeEstoque;
-    private int id;
+    private String id;
 
     // Parametrized constructor.
     public ProductItem(String newName, String newDescription, double newPrice) throws RemoteException {
         counter++;
-        this.id = counter;
+        this.id = String.valueOf(counter);
         this.name  = newName;
         this.description = newDescription;
         this.price = newPrice;
         this.quantidadeEstoque = 0;
+    }
+
+    public ProductItem(String newName, String newDescription, double newPrice, int qty) throws RemoteException {
+        counter++;
+        this.id = String.valueOf(counter);
+        this.name  = newName;
+        this.description = newDescription;
+        this.price = newPrice;
+        this.quantidadeEstoque = qty;
     }
 
     public void adicionaEstoque(int quantidade){
@@ -29,23 +40,23 @@ public class ProductItem implements Product {
     }
 
     @Override
-    public int getId() throws RemoteException {
+    public String getId() throws RemoteException {
         return this.id;
     }
 
     @Override
     public String getName() throws RemoteException {
-        return null;
+        return name;
     }
 
     @Override
     public String getDescription() throws RemoteException {
-        return null;
+        return description;
     }
 
     @Override
     public double getPrice() throws RemoteException {
-        return 0;
+        return price;
     }
 
     @Override
@@ -57,6 +68,17 @@ public class ProductItem implements Product {
     public boolean reduceQty() {
         if(quantidadeEstoque == 0) return false;
         quantidadeEstoque--;
+        System.out.println(id +" - "+ name +" - "+  "foi vendido");
         return true;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Código:" + id +
+                ", Nome: " + name +
+                ", Descrição: " + description +
+                ", Preço: R$" + price +
+                ", Em estoque: " + quantidadeEstoque ;
     }
 }
