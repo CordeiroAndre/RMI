@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 
 
 //TODO(Validar que os spinners aceitam apenas valores numéricos)
+//TODO(Codigo duplicado d+)
 public class ServerWindow {
 
     JFrame frame;
@@ -89,19 +90,19 @@ public class ServerWindow {
         panel.add(nameLabel);
         panel.add(name);
 
-        JLabel descriptionLabel = new JLabel("Description: ");
+        JLabel descriptionLabel = new JLabel(" Description: ");
         JTextField description = new JTextField();
         panel.add(descriptionLabel);
         panel.add(description);
 
-        JLabel pricingLabel = new JLabel("Price: ");
+        JLabel pricingLabel = new JLabel(" Price: ");
         JSpinner pricing = new JSpinner();
         pricing.setModel(new SpinnerNumberModel(0, 0, 100000, .01));
         pricing.setEditor(new JSpinner.NumberEditor(pricing));
         panel.add(pricingLabel);
         panel.add(pricing);
 
-        JLabel quantityLabel = new JLabel("Quantity: ");
+        JLabel quantityLabel = new JLabel(" Quantity: ");
         JSpinner quantity = new JSpinner();
         quantity.setModel(new SpinnerNumberModel(0, 0, 100, 1));
         quantity.setEditor(new JSpinner.NumberEditor(quantity));
@@ -115,6 +116,59 @@ public class ServerWindow {
                 try {
                     serverWindowController.registerProduct(new ProductItem(name.getText(), description.getText(), (Double) pricing.getValue()));
                     serverWindowController.addMoreUnitsToProduct(name.getText(),(int) quantity.getValue());
+                    makeProduct();
+                    frame.dispose();
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        panel.add(finalizar);
+
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
+
+
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private void updateProduct(ProductItem item) throws RemoteException {
+        JFrame frame = new JFrame("Atualizar "+ item.getName() );
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        BoxLayout boxlayoutY = new BoxLayout(panel, BoxLayout.Y_AXIS);
+
+        panel.setLayout(boxlayoutY);
+
+        JLabel descriptionLabel = new JLabel(" Description: ");
+        JTextField description = new JTextField();
+        panel.add(descriptionLabel);
+        panel.add(description);
+
+        JLabel pricingLabel = new JLabel(" Price: ");
+        JSpinner pricing = new JSpinner();
+        pricing.setModel(new SpinnerNumberModel(0, 0, 100000, .01));
+        pricing.setEditor(new JSpinner.NumberEditor(pricing));
+        panel.add(pricingLabel);
+        panel.add(pricing);
+
+        JLabel quantityLabel = new JLabel(" Quantity: ");
+        JSpinner quantity = new JSpinner();
+        quantity.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+        quantity.setEditor(new JSpinner.NumberEditor(quantity));
+        panel.add(quantityLabel);
+        panel.add(quantity);
+
+        JButton finalizar = new JButton("finalizar");
+        finalizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ProductItem productItem = new ProductItem(item.getName(), description.getText(), (Double) pricing.getValue());
+                    productItem.setQuantidadeEstoque((int)quantity.getValue());
+                    serverWindowController.changeProduct(item.getName(), productItem);
                     makeProduct();
                     frame.dispose();
                 } catch (RemoteException ex) {
@@ -170,6 +224,20 @@ public class ServerWindow {
             });
 
             panel.add(AdicionarEstoque);
+
+            JButton atualizarItem = new JButton("Atualizar");
+            atualizarItem.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    try {
+                        updateProduct(serverWindowController.getProductItemList().get(product.getName()));
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            });
+
+            panel.add(atualizarItem);
 
             contentPanel.add(panel);
             frame.pack();

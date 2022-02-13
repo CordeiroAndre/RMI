@@ -52,6 +52,7 @@ public class ServerWindowController {
 
         try {
             registry.rebind(productName, updatedProduct);
+            productItemList.put(productName, updatedProduct);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
