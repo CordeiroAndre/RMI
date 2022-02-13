@@ -2,7 +2,10 @@ package client;
 
 
 import server.ProductItem;
+import server.Server;
 
+import javax.swing.*;
+import java.awt.*;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -23,13 +26,13 @@ public class Client {
         }
     }
 
-    public List<Product> visualizarProdutosEstoque(){
+    public List<server.Product> visualizarProdutosEstoque(){
         try {
             List<String> productNames = List.of(registry.list());
-            List<Product> products = new ArrayList<>();
+            List<server.Product> products = new ArrayList<>();
 
             for (String name:productNames) {
-                Product product = (Product) registry.lookup(name);
+                server.Product product = (server.Product) registry.lookup(name);
                 products.add(product);
             }
 
@@ -45,7 +48,7 @@ public class Client {
 
         try {
 
-            Product product = (Product) registry.lookup(name);
+            server.Product product = (server.Product) registry.lookup(name);
 
             for(int i= 0; i<quantity; i++){
                 product.reduceQty();
@@ -58,7 +61,8 @@ public class Client {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
+       ClientWindow clientWindow = new ClientWindow();
 
     }
 }
