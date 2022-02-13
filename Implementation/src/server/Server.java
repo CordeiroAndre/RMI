@@ -1,5 +1,7 @@
 package server;
 
+import java.rmi.AlreadyBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -9,16 +11,51 @@ import java.util.List;
 
 public class Server {
 
-    private HashMap<String,ProductItem> productItemList;
+    private HashMap<String,ProductItem> productItemList = new HashMap<>();
+    private Registry registry;
 
+    public Server() {
+        try {
 
-    public void registerProduct(String productName, ProductItem product){
-        productItemList.put(productName, product);
+            System.out.println("Inicializando servidor");
+
+            System.setProperty("java.rmi.server.hostname","127.0.0.1");
+
+            // Cria do Registry
+            registry = LocateRegistry.createRegistry(9000);
+
+            System.out.println("Finalizamos a criacao do servidor!");
+
+        } catch (Exception e) {
+            System.out.println("Server creation error" + e);
+
+        }
+    }
+
+    public void registerProduct(ProductItem product){
+
+        try {
+            productItemList.put(product.getName(), product);
+            Product stub = (Product) UnicastRemoteObject.exportObject(product, 0);
+            registry.bind(product.getName(), stub);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (AlreadyBoundException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void changeProduct(String productName, ProductItem updatedProduct){
-        if(!productItemList.containsKey(productName)) return;
-        productItemList.put(productName, updatedProduct);
+    if(!productItemList.containsKey(productName)) return;
+
+        try {
+            registry.rebind(productName, updatedProduct);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void addMoreUnitsToProduct(String productName, int quantity){
@@ -29,33 +66,20 @@ public class Server {
         return productItemList;
     }
 
-    public static void main(String [] args) {
+    private void createServer(){
         try {
 
             System.out.println("Inicializando servidor");
 
             System.setProperty("java.rmi.server.hostname","127.0.0.1");
 
-            // Criamos
-
-            ProductItem computador = new ProductItem("Computador", "Lenovo laptop", 800000.0);
-            ProductItem celular = new ProductItem("Celular", "MI 9 mobile", 24000.0);
-            computador.adicionaEstoque(10);
-            celular.adicionaEstoque(1);
-
-            // exportamos o objeto antes de colocar no registry
-            Product stub1 = (Product) UnicastRemoteObject.exportObject(computador, 0);
-            Product stub2 = (Product) UnicastRemoteObject.exportObject(celular, 0);
-
             // Cria do Registry
             Registry registry = LocateRegistry.createRegistry(9000);
 
-            // Registered the exported object in rmi registry so that client can
-            // lookup in this registry and call the object methods.
-            registry.bind("Computador", stub1);
-            registry.bind("Celular", stub2);
-
-
+            for (ProductItem product:productItemList.values()) {
+                Product stub = (Product) UnicastRemoteObject.exportObject(product, 0);
+                registry.bind(product.getName(), stub);
+            }
 
             System.out.println("Finalizamos a criacao do servidor!");
 
@@ -63,6 +87,10 @@ public class Server {
             System.out.println("Server creation error" + e);
 
         }
+    }
+
+    public static void main(String [] args) {
+
 
     }
 }

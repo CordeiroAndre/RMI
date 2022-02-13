@@ -60,4 +60,16 @@ public class ProductItem implements Product {
                 ", quantidadeEstoque=" + quantidadeEstoque +
                 '}';
     }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setQuantidadeEstoque(int quantidadeEstoque) {
+        this.quantidadeEstoque = quantidadeEstoque;
+    }
 }
