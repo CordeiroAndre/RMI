@@ -77,21 +77,29 @@ public class ClientWindow {
             panel.add(nome);
             JLabel descicao = new JLabel(product.getDescription());
             panel.add(descicao);
-            JLabel preco = new JLabel(String.valueOf(product.getPrice()));
+            JLabel preco = new JLabel(String.valueOf(product.getPrice())+" Reais.");
             panel.add(preco);
             JLabel quantidadeEstoque = new JLabel(String.valueOf(product.getInventoryQty()));
             panel.add(quantidadeEstoque);
 
             JButton comprar = new JButton("Comprar");
+
             comprar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    clientWindowController
+                    try {
+                        clientWindowController.efetuarVenda(product.getName(), 1);
+                        makeProduct();
+                    } catch (RemoteException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             });
 
+            panel.add(comprar);
+
             contentPanel.add(panel);
-            frame.repaint();
+            SwingUtilities.updateComponentTreeUI(frame);
 
         }
 
