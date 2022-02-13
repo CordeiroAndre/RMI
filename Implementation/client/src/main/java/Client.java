@@ -1,7 +1,4 @@
-package client;
-
-
-import client.view.ClientWindow;
+import view.ClientWindow;
 
 import java.rmi.RemoteException;
 

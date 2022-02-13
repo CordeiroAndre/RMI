@@ -1,8 +1,8 @@
-package server.view;
+package view;
 
-import server.controller.ServerWindowController;
-import server.model.Product;
-import server.model.ProductItem;
+import controller.ServerWindowController;
+import model.Product;
+import model.ProductItem;
 
 import javax.swing.*;
 import java.awt.*;

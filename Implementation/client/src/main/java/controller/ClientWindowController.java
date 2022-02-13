@@ -1,6 +1,6 @@
-package client.controller;
+package controller;
 
-import server.model.Product;
+import model.Product;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

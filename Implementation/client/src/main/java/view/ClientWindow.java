@@ -1,7 +1,7 @@
-package client.view;
+package view;
 
-import client.controller.ClientWindowController;
-import server.model.Product;
+import controller.ClientWindowController;
+import model.Product;
 
 import javax.swing.*;
 import java.awt.*;

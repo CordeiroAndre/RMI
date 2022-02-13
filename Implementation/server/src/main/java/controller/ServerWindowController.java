@@ -1,7 +1,7 @@
-package server.controller;
+package controller;
 
-import server.model.Product;
-import server.model.ProductItem;
+import model.Product;
+import model.ProductItem;
 
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
