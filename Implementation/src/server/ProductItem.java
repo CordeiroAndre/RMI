@@ -26,17 +26,17 @@ public class ProductItem implements Product {
 
     @Override
     public String getName() throws RemoteException {
-        return null;
+        return name;
     }
 
     @Override
     public String getDescription() throws RemoteException {
-        return null;
+        return description;
     }
 
     @Override
     public double getPrice() throws RemoteException {
-        return 0;
+        return price;
     }
 
     @Override
