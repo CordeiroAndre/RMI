@@ -48,7 +48,7 @@ public class Server {
     }
 
     public void changeProduct(String productName, ProductItem updatedProduct){
-    if(!productItemList.containsKey(productName)) return;
+     if(!productItemList.containsKey(productName)) return;
 
         try {
             registry.rebind(productName, updatedProduct);
@@ -66,33 +66,10 @@ public class Server {
         return productItemList;
     }
 
-    private void createServer(){
-        try {
-
-            System.out.println("Inicializando servidor");
-
-            System.setProperty("java.rmi.server.hostname","127.0.0.1");
-
-            // Cria do Registry
-            Registry registry = LocateRegistry.createRegistry(9000);
-
-            for (ProductItem product:productItemList.values()) {
-                Product stub = (Product) UnicastRemoteObject.exportObject(product, 0);
-                registry.bind(product.getName(), stub);
-            }
-
-            System.out.println("Finalizamos a criacao do servidor!");
-
-        } catch (Exception e) {
-            System.out.println("Server creation error" + e);
-
-        }
-    }
-
-    public static void main(String [] args) {
+    public static void main(String [] args) throws RemoteException {
 
         Server server = new Server();
-
-
+        ProductItem productItem = new ProductItem("Computador", "tec tec tec", 15.19);
+        server.registerProduct(productItem);
     }
 }
