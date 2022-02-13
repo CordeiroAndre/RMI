@@ -21,8 +21,7 @@ public class ServerWindowController {
             System.out.println("Inicializando servidor");
 
             System.setProperty("java.rmi.server.hostname","127.0.0.1");
-
-            // Cria do Registry
+            
             registry = LocateRegistry.createRegistry(9000);
 
             System.out.println("Finalizamos a criacao do servidor!");

@@ -16,20 +16,6 @@ public class Server {
 
     public static void main(String [] args) throws RemoteException {
 
-//        Server server = new Server();
-//        ProductItem productItem = new ProductItem("Farofa", "Fafora York bom d+", 5.00);
-//        server.registerProduct(productItem);
-//
-//        ProductItem productItem2 = new ProductItem("Arroz", "combina bem com feijao", 2.25);
-//        server.registerProduct(productItem2);
-//
-//        ProductItem productItem3 = new ProductItem("Feijao", "Gosto de d+", 7.25);
-//        server.registerProduct(productItem3);
-//
-//        server.addMoreUnitsToProduct("Farofa", 50);
-//        server.addMoreUnitsToProduct("Arroz", 50);
-//        server.addMoreUnitsToProduct("Feijao", 50);
-
         ServerWindow serverWindow = new ServerWindow();
 
     }

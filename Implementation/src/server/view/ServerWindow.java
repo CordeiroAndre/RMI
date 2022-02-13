@@ -2,6 +2,7 @@ package server.view;
 
 import server.controller.ServerWindowController;
 import server.model.Product;
+import server.model.ProductItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
+
+//TODO(Validar que os spinners aceitam apenas valores numéricos)
 public class ServerWindow {
 
     JFrame frame;
@@ -47,7 +50,7 @@ public class ServerWindow {
         adicionarProduto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                makeAddProduct();
             }
         });
 
@@ -73,7 +76,60 @@ public class ServerWindow {
 
 
     private void makeAddProduct(){
+        JFrame frame = new JFrame("Adicionar novo produto");
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        JPanel panel = new JPanel();
+        BoxLayout boxlayoutY = new BoxLayout(panel, BoxLayout.Y_AXIS);
+
+        panel.setLayout(boxlayoutY);
+
+        JLabel nameLabel = new JLabel("Name: ");
+        JTextField name = new JTextField();
+        panel.add(nameLabel);
+        panel.add(name);
+
+        JLabel descriptionLabel = new JLabel("Description: ");
+        JTextField description = new JTextField();
+        panel.add(descriptionLabel);
+        panel.add(description);
+
+        JLabel pricingLabel = new JLabel("Price: ");
+        JSpinner pricing = new JSpinner();
+        pricing.setModel(new SpinnerNumberModel(0, 0, 100000, .01));
+        pricing.setEditor(new JSpinner.NumberEditor(pricing));
+        panel.add(pricingLabel);
+        panel.add(pricing);
+
+        JLabel quantityLabel = new JLabel("Quantity: ");
+        JSpinner quantity = new JSpinner();
+        quantity.setModel(new SpinnerNumberModel(0, 0, 100, 1));
+        quantity.setEditor(new JSpinner.NumberEditor(quantity));
+        panel.add(quantityLabel);
+        panel.add(quantity);
+
+        JButton finalizar = new JButton("finalizar");
+        finalizar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    serverWindowController.registerProduct(new ProductItem(name.getText(), description.getText(), (Double) pricing.getValue()));
+                    serverWindowController.addMoreUnitsToProduct(name.getText(),(int) quantity.getValue());
+                    makeProduct();
+                    frame.dispose();
+                } catch (RemoteException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        panel.add(finalizar);
+
+        frame.getContentPane().add(panel, BorderLayout.CENTER);
+
+
+        frame.pack();
+        frame.setVisible(true);
     }
 
     private void makeProduct() throws RemoteException {
@@ -82,23 +138,23 @@ public class ServerWindow {
 
         for (Product product : serverWindowController.getProductItemList().values()) {
             Panel panel = new Panel();
-            GridLayout staticPanelGridLayout = new GridLayout(1, 4);
-            panel.setLayout(staticPanelGridLayout);
+            BoxLayout boxlayoutY = new BoxLayout(panel, BoxLayout.X_AXIS);
+            panel.setLayout(boxlayoutY);
 
 
-            JLabel nome = new JLabel(product.getName());
+            JLabel nome = new JLabel("Nome: "+product.getName());
             panel.add(nome);
-            JLabel descicao = new JLabel(product.getDescription());
+            JLabel descicao = new JLabel("Descricao: "+product.getDescription());
             panel.add(descicao);
-            JLabel preco = new JLabel(String.valueOf(product.getPrice()) + " Reais.");
+            JLabel preco = new JLabel(String.valueOf("Preco: "+product.getPrice()) + " Reais.");
             panel.add(preco);
-            JLabel quantidadeEstoque = new JLabel(String.valueOf(product.getInventoryQty()));
+            JLabel quantidadeEstoque = new JLabel(String.valueOf("Estoque: "+product.getInventoryQty()));
             panel.add(quantidadeEstoque);
 
-            JButton AdicionarEstoque = new JButton("Adicionar");
+            JButton AdicionarEstoque = new JButton("Add");
             JSpinner quantity = new JSpinner();
             quantity.setModel(new SpinnerNumberModel(0, 0, 100, 1));
-            quantity.setEditor(new JSpinner.NumberEditor(quantity, "##.#"));
+            quantity.setEditor(new JSpinner.NumberEditor(quantity));
             panel.add(quantity);
 
             AdicionarEstoque.addActionListener(new ActionListener() {
@@ -116,6 +172,7 @@ public class ServerWindow {
             panel.add(AdicionarEstoque);
 
             contentPanel.add(panel);
+            frame.pack();
             SwingUtilities.updateComponentTreeUI(frame);
         }
     }
