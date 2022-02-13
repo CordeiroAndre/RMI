@@ -45,9 +45,19 @@ public class ProductItem implements Product {
     }
 
     @Override
-    public boolean reduceQty() {
+    public synchronized boolean reduceQty() {
         if(quantidadeEstoque == 0) return false;
         quantidadeEstoque--;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductItem{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", quantidadeEstoque=" + quantidadeEstoque +
+                '}';
     }
 }

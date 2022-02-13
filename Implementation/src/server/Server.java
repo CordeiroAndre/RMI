@@ -3,8 +3,32 @@ package server;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class Server {
+
+    private HashMap<String,ProductItem> productItemList;
+
+
+    public void registerProduct(String productName, ProductItem product){
+        productItemList.put(productName, product);
+    }
+
+    public void changeProduct(String productName, ProductItem updatedProduct){
+        if(!productItemList.containsKey(productName)) return;
+        productItemList.put(productName, updatedProduct);
+    }
+
+    public void addMoreUnitsToProduct(String productName, int quantity){
+        productItemList.get(productName).adicionaEstoque(quantity);
+    }
+
+    public HashMap<String, ProductItem> getProductItemList() {
+        return productItemList;
+    }
+
     public static void main(String [] args) {
         try {
 
