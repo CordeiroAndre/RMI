@@ -1,9 +1,9 @@
 package client.view;
 
 import client.controller.ClientWindowController;
+import server.model.Product;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,7 +66,7 @@ public class ClientWindow {
         contentPanel.removeAll();
 
 
-        for (server.Product product: clientWindowController.visualizarProdutosEstoque()) {
+        for (Product product: clientWindowController.visualizarProdutosEstoque()) {
             Panel panel = new Panel();
             GridLayout staticPanelGridLayout = new GridLayout(1, 4);
             panel.setLayout(staticPanelGridLayout);

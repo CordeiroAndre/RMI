@@ -1,6 +1,6 @@
 package client.controller;
 
-import server.Product;
+import server.model.Product;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -24,10 +24,10 @@ public class ClientWindowController {
     public List<Product> visualizarProdutosEstoque(){
         try {
             List<String> productNames = List.of(registry.list());
-            List<server.Product> products = new ArrayList<>();
+            List<Product> products = new ArrayList<>();
 
             for (String name:productNames) {
-                server.Product product = (server.Product) registry.lookup(name);
+                Product product = (Product) registry.lookup(name);
                 products.add(product);
             }
 
@@ -42,9 +42,7 @@ public class ClientWindowController {
     public boolean efetuarVenda(String name, int quantity){
 
         try {
-
-            server.Product product = (server.Product) registry.lookup(name);
-
+            Product product = (Product) registry.lookup(name);
             for(int i= 0; i<quantity; i++){
                 product.reduceQty();
             }
