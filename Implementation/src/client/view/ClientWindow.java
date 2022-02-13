@@ -17,7 +17,7 @@ public class ClientWindow {
 
     public ClientWindow() throws RemoteException {
         clientWindowController =new ClientWindowController();
-        frame = new JFrame("FrameDemo");
+        frame = new JFrame("Client");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
