@@ -1,7 +1,7 @@
-package client.src.main.java.controller;
+package controller;
 
-import client.src.main.java.view.ConfigView;
-import client.src.main.java.model.ConfigModel;
+import view.ConfigView;
+import model.ConfigModel;
 
 
 public class ConfigController {
@@ -33,6 +33,12 @@ public class ConfigController {
         return true;
     }
 
+    /**
+     * Updates the model where the config is set
+     * @param hostValue
+     * @param portValue
+     * @return
+     */
     public boolean saveHostAndPort(String hostValue, String portValue) {
         int port = 0;
         if (hostValue.isBlank() || portValue.isBlank())

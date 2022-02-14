@@ -56,6 +56,10 @@ public class ConfigView extends JPanel{
         return hostPanel;
     }
 
+    /**
+     * apply buttons style
+     * @param buttons
+     */
     private void applyButtonsStyle(JButton... buttons){
         for (JButton button : buttons) {
             button.setMargin(new Insets(4,4,4,4));

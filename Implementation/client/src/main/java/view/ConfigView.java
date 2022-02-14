@@ -1,6 +1,6 @@
-package client.src.main.java.view;
+package view;
 
-import client.src.main.java.controller.ConfigController;
+import controller.ConfigController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +53,10 @@ public class ConfigView extends JPanel{
     }
 
 
+    /**
+     * apply buttons style
+     * @param buttons
+     */
     private void applyButtonsStyle(JButton... buttons){
         for (JButton button : buttons) {
             button.setMargin(new Insets(4,4,4,4));

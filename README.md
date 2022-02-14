@@ -67,5 +67,6 @@ seriam teria um sistema simples "Clients" que só pode operar sobre o estoque ef
 
 ## Docs
 Acesse na pasta _./docs_ os arquivos e diagramas do projeto:
+  - *Pacotes Jar*: client.jar (Cliente) e server.jar (Server)
   - *diagrama_classes*: principais classes relacionadas à implementação do RMI
   - *diagrama_sequencia*: sequencia de ações durante a execução do sistema distribuído

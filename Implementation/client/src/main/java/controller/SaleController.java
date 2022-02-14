@@ -1,8 +1,8 @@
-package client.src.main.java.controller;
+package controller;
 
-import client.src.main.java.model.ProductModel;
+import model.ProductModel;
 import remote.Product;
-import client.src.main.java.view.SaleView;
+import view.SaleView;
 
 
 import javax.swing.*;
@@ -29,6 +29,9 @@ public class SaleController {
         this.saleView = saleView;
     }
 
+    /**
+     * Update list of products and list model, refreshing the view also
+     */
     public void updateList(){
         try {
             this.registry = LocateRegistry.getRegistry(configController.getServerHost(), configController.getServerPort());
@@ -63,6 +66,11 @@ public class SaleController {
 
     }
 
+    /**
+     * Set the remote object
+     * @param productModel
+     * @return
+     */
     public boolean updateSelectedProduct(ProductModel productModel){
         try {
             selectedProduct = (Product) registry.lookup(String.valueOf(productModel.getCode()));
@@ -80,6 +88,10 @@ public class SaleController {
 
     }
 
+    /**
+     * Sell the list's selected item
+     * @return
+     */
     public boolean sellSelectedItem(){
         boolean result = false;
 

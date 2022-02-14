@@ -30,6 +30,12 @@ public class ConfigController {
         return true;
     }
 
+    /**
+     * Updates the model where the host config is set
+     * @param hostValue
+     * @param portValue
+     * @return
+     */
     public boolean saveHostAndPort(String hostValue, String portValue) {
         int port = 0;
         if (hostValue.isBlank() || portValue.isBlank())

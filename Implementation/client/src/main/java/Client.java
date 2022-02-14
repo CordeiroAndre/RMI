@@ -1,6 +1,4 @@
-package main.java;
-
-import client.src.main.java.view.ClientView;
+import view.ClientView;
 
 import javax.swing.*;
 import java.awt.*;

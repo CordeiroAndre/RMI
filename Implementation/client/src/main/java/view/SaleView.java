@@ -1,7 +1,7 @@
-package client.src.main.java.view;
+package view;
 
-import client.src.main.java.controller.SaleController;
-import client.src.main.java.model.ProductModel;
+import controller.SaleController;
+import model.ProductModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -102,46 +102,6 @@ public class SaleView  extends JPanel{
         return salePanel;
     }
 
-    public JTextField getTfFilter() {
-        return tfFilter;
-    }
-
-    public JButton getBtReset() {
-        return btReset;
-    }
-
-    public JButton getBtFilter() {
-        return btFilter;
-    }
-
-    public JPanel getListPanel() {
-        return listPanel;
-    }
-
-    public JLabel getLbList() {
-        return lbList;
-    }
-
-    public JLabel getLbFilter() {
-        return lbFilter;
-    }
-
-    public JPanel getActionPanel() {
-        return actionPanel;
-    }
-
-    public JButton getBtSell() {
-        return btSell;
-    }
-
-    public JButton getBtUpdateList() {
-        return btUpdateList;
-    }
-
-    public JList getLsItems() {
-        return lsItems;
-    }
-
     public boolean setProductsList(ListModel<ProductModel> listModel){
         lsItems.clearSelection();
         lsItems.setModel(listModel);
@@ -149,6 +109,9 @@ public class SaleView  extends JPanel{
         return true;
     }
 
+    /**
+     * Try to sell the product and check the result
+     */
     private void sellSelected(){
         if (saleController.sellSelectedItem())
             JOptionPane.showMessageDialog(null, "Produto Vendido");
@@ -159,6 +122,10 @@ public class SaleView  extends JPanel{
         btSell.setEnabled(false);
     }
 
+    /**
+     * apply buttons style
+     * @param buttons
+     */
     private void applyButtonsStyle(JButton... buttons){
         for (JButton button : buttons) {
             button.setMargin(new Insets(4,4,4,4));

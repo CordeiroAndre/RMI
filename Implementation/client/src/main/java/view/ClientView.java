@@ -1,4 +1,4 @@
-package client.src.main.java.view;
+package view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +16,6 @@ public class ClientView extends JFrame {
     private ConfigView configPanel;
     private SaleView salePanel;
 
-//    ConfigController configController;
-//    SaleController saleController;
-//    ClientController clientController;
 
     public ClientView() {
         super("Client - RMI Sales");
@@ -70,6 +67,10 @@ public class ClientView extends JFrame {
     }
 
 
+    /**
+     * apply buttons style
+     * @param buttons
+     */
     private void applyButtonsStyle(JButton... buttons){
         for (JButton button : buttons) {
             button.setHorizontalAlignment(SwingConstants.LEFT);

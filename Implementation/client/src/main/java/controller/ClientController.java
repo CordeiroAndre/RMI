@@ -1,6 +1,6 @@
-package client.src.main.java.controller;
+package controller;
 
-import client.src.main.java.view.ClientView;
+import view.ClientView;
 
 public class ClientController {
 
