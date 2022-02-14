@@ -6,3 +6,5 @@
 .externalNativeBuild
 .cxx
 /out
+/Implementation/client/target
+/Implementation/server/target
