@@ -19,7 +19,7 @@ public class ConfigView extends JPanel{
     private ConfigController configController = new ConfigController();
 
     public ConfigView() {
-        applyButtonsStyle(btDefaultHost,btSaveHost);
+        applyButtonsStyle(btSaveHost,btDefaultHost);
         tfHost.setText(configController.getServerHost());
         tfPort.setText(String.valueOf(configController.getServerPort()));
         btDefaultHost.addActionListener(new ActionListener() {
@@ -52,20 +52,19 @@ public class ConfigView extends JPanel{
         });
     }
 
+    public JPanel getHostPanel() {
+        return hostPanel;
+    }
 
     private void applyButtonsStyle(JButton... buttons){
         for (JButton button : buttons) {
             button.setMargin(new Insets(4,4,4,4));
-            button.setBackground(new Color(28,43,50));
+            button.setBackground(Color.DARK_GRAY);
             button.setForeground(Color.WHITE);
             button.setSelected(false);
             button.setFocusPainted(false);
             button.setOpaque(true);
         }
 
-    }
-
-    public JPanel getHostPanel() {
-        return hostPanel;
     }
 }

@@ -6,11 +6,13 @@ import view.SaleView;
 
 
 import javax.swing.*;
+import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SaleController {
@@ -19,7 +21,7 @@ public class SaleController {
     private ConfigController configController = new ConfigController();
     private SaleView saleView;
     private Registry registry;
-    private Product selectedProduct;
+    private Product selectedProduct = null;
 
     public SaleController() {
     }
@@ -35,43 +37,40 @@ public class SaleController {
             DefaultListModel<ProductModel> listModel = new DefaultListModel<>();
             for (String s : registry.list()) {
 
-                System.out.println(s);
-
-                // be aware if in the same project need to use the same class,
-                // if we split the client and server we need to change de class reference but both must have same path
                 Product productItem = (Product) registry.lookup(s);
                 ProductModel productModel = new ProductModel(productItem.getId(),productItem.getName(),productItem.getDescription(),productItem.getPrice(),productItem.getInventoryQty());
-                System.out.println(productModel.toString());
                 productModelList.add(productModel);
                 listModel.addElement(productModel);
-//                while (productItem.getInventoryQty() > 0) {
-//                    boolean estaVendido = productItem.reduceQty();
-//
-//                    if (estaVendido)  System.out.println("computador vendido com exito!");
-//                    else System.out.println("nao ha mais computadores no estoque");
-//                }
             }
 
             saleView.setProductsList(listModel);
 
+        } catch (ConnectException connectException){
+            JOptionPane.showMessageDialog(null,"Erro ao se comunicar com server!","Erro - Conexão", JOptionPane.ERROR_MESSAGE);
         } catch (RemoteException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null,e,"Erro!",JOptionPane.ERROR_MESSAGE);
         } catch (NotBoundException e) {
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null,e,"Erro!",JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    public boolean updateSelectedProduct(ProductModel productModel){
+    public void filterList(String filter){
+        DefaultListModel<ProductModel> listModel = new DefaultListModel<>();
+        for (ProductModel productModel : productModelList) {
+            if (productModel.getName().contains(filter) || productModel.getDescription().contains(filter))
+                listModel.addElement(productModel);
+        }
+        saleView.setProductsList(listModel);
 
-        selectedProduct = null;
+    }
+
+    public boolean updateSelectedProduct(ProductModel productModel){
         try {
             selectedProduct = (Product) registry.lookup(String.valueOf(productModel.getCode()));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-            return false;
         } catch (NotBoundException e) {
+            JOptionPane.showMessageDialog(null,"Produto não existe no Estoque. Pode ter sido retirado!");
+            return false;
+        } catch (RemoteException e) {
             e.printStackTrace();
             return false;
         }
@@ -86,8 +85,17 @@ public class SaleController {
         boolean result = false;
 
         try {
-            if (selectedProduct != null)
-                result  = selectedProduct.reduceQty();
+            if (selectedProduct != null) {
+                result = false;
+                for (String s : registry.list()) {
+                   if (s.equals(selectedProduct.getId())) {
+                       result = selectedProduct.reduceQty();
+                       break;
+                   }
+                }
+
+                selectedProduct = null; //reset
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }

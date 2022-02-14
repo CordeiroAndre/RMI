@@ -76,7 +76,7 @@ public class ClientView extends JFrame {
             button.setHorizontalTextPosition(SwingConstants.TRAILING);
             button.setIconTextGap(20);
             button.setMargin(new Insets(4,4,4,4));
-            button.setBackground(Color.DARK_GRAY);
+            button.setBackground(new Color(28,43,50));
             button.setForeground(Color.WHITE);
             button.setSelected(false);
             button.setFocusPainted(false);
@@ -91,29 +91,4 @@ public class ClientView extends JFrame {
         this.mainPanel.setForeground(Color.LIGHT_GRAY);
 
     }
-
-
-//    public void setContentPanel(JPanel component){
-////        rightPanel.setBackground(Color.RED);
-//        JPanel panel = configController.getConfigView();
-//        panel.setSize(800,800);
-//        panel.setVisible(true);
-//
-//        rightPanel.setBackground(Color.GREEN);
-//
-//        rightPanel.removeAll();
-//        rightPanel.add(panel);
-//        panel.validate();
-//        panel.repaint();
-//        rightPanel.validate();
-//        rightPanel.repaint();
-//        rightPanel.setVisible(true);
-
-//    }
-
-//    public void setControllers(ClientController clientController, ConfigController configController, SaleController saleController) {
-//        this.clientController = clientController;
-//        this.configController = configController;
-//        this.saleController = saleController;
-//    }
 }

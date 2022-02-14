@@ -6,12 +6,11 @@ import model.ProductModel;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeListener;
 
 public class SaleView  extends JPanel{
-    private JButton btSaveHost;
-    private JButton btDefaultHost;
     private JPanel salePanel;
     private JTextField tfFilter;
     private JButton btReset;
@@ -21,13 +20,17 @@ public class SaleView  extends JPanel{
     private JLabel lbFilter;
     private JPanel actionPanel;
     private JButton btSell;
-    private JButton btCancel;
     private JButton btUpdateList;
     private JList lsItems;
 
     SaleController saleController = new SaleController(this);
 
     public SaleView() {
+        applyButtonsStyle(btUpdateList,btFilter,btReset,btSell);
+
+        lsItems.clearSelection();
+        saleController.updateList();
+
         btUpdateList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -38,6 +41,8 @@ public class SaleView  extends JPanel{
         lsItems.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
+                if(lsItems.isSelectionEmpty())
+                    return;
                 boolean isSet = saleController.updateSelectedProduct((ProductModel) lsItems.getSelectedValue());
                 if (isSet)
                     btSell.setEnabled(true);
@@ -48,20 +53,50 @@ public class SaleView  extends JPanel{
         btSell.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (saleController.sellSelectedItem())
-                    JOptionPane.showMessageDialog(null,"Produto Vendido!");
-                else
-                    JOptionPane.showMessageDialog(null, "Falha ao vender produto");
+                sellSelected();
+                lsItems.clearSelection();
+                tfFilter.setText("");
+                btFilter.setEnabled(false);
+                btReset.setEnabled(false);
             }
         });
-    }
+        tfFilter.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                btFilter.setEnabled(true);
+                if (tfFilter.getText().isBlank())
+                    btFilter.setEnabled(false);
+            }
 
-    public JButton getBtSaveHost() {
-        return btSaveHost;
-    }
+            @Override
+            public void keyPressed(KeyEvent e) {
+                btFilter.setEnabled(true);
+                if (tfFilter.getText().isBlank())
+                    btFilter.setEnabled(false);
 
-    public JButton getBtDefaultHost() {
-        return btDefaultHost;
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+        btReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tfFilter.setText("");
+                btFilter.setEnabled(false);
+            }
+        });
+        btFilter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!tfFilter.getText().isBlank()) {
+                    saleController.filterList(tfFilter.getText());
+                    btReset.setEnabled(true);
+                }
+            }
+        });
     }
 
     public JPanel getSalePanel() {
@@ -100,10 +135,6 @@ public class SaleView  extends JPanel{
         return btSell;
     }
 
-    public JButton getBtCancel() {
-        return btCancel;
-    }
-
     public JButton getBtUpdateList() {
         return btUpdateList;
     }
@@ -113,18 +144,31 @@ public class SaleView  extends JPanel{
     }
 
     public boolean setProductsList(ListModel<ProductModel> listModel){
+        lsItems.clearSelection();
         lsItems.setModel(listModel);
 
         return true;
     }
 
     private void sellSelected(){
-        boolean isSold = saleController.sellSelectedItem();
-        if (isSold)
+        if (saleController.sellSelectedItem())
             JOptionPane.showMessageDialog(null, "Produto Vendido");
         else
             JOptionPane.showMessageDialog(null, "Falha ao operar a venda");
         saleController.updateList();
+        lsItems.clearSelection();
+        btSell.setEnabled(false);
+    }
+
+    private void applyButtonsStyle(JButton... buttons){
+        for (JButton button : buttons) {
+            button.setMargin(new Insets(4,4,4,4));
+            button.setBackground(new Color(28,43,50));
+            button.setForeground(Color.WHITE);
+            button.setSelected(false);
+            button.setFocusPainted(false);
+            button.setOpaque(true);
+        }
 
     }
 
