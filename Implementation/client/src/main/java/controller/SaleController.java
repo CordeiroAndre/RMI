@@ -19,11 +19,9 @@ public class SaleController {
 
     private ConfigController configController = new ConfigController();
     private SaleView saleView;
-    private Registry registry;
+    private static Registry registry;
     private Product selectedProduct = null;
 
-    public SaleController() {
-    }
 
     public SaleController(SaleView saleView) {
         this.saleView = saleView;
@@ -34,7 +32,7 @@ public class SaleController {
      */
     public void updateList(){
         try {
-            this.registry = LocateRegistry.getRegistry(configController.getServerHost(), configController.getServerPort());
+            registry = LocateRegistry.getRegistry(configController.getServerHost(), configController.getServerPort());
             productModelList.clear();
             DefaultListModel<ProductModel> listModel = new DefaultListModel<>();
             for (String s : registry.list()) {
@@ -74,6 +72,9 @@ public class SaleController {
     public boolean updateSelectedProduct(ProductModel productModel){
         try {
             selectedProduct = (Product) registry.lookup(String.valueOf(productModel.getCode()));
+        } catch (ConnectException connectException){
+            JOptionPane.showMessageDialog(null,"Conexão falhou!");
+            return false;
         } catch (NotBoundException e) {
             JOptionPane.showMessageDialog(null,"Produto não existe no Estoque. Pode ter sido retirado!");
             return false;

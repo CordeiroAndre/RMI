@@ -38,10 +38,10 @@ public class ClientView extends JFrame {
             salePanel.setVisible(false);
 
 
-            configPanel.getHostPanel().setVisible(false);
-            configPanel.setVisible(false);
-
+            configPanel.getHostPanel().setVisible(true);
+            configPanel.setVisible(true);
             applyButtonsStyle(this.btnSales, this.btnConfig);
+            setMenuStyle();
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -54,6 +54,7 @@ public class ClientView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 salePanel.getSalePanel().setVisible(false);
                 configPanel.getHostPanel().setVisible(true);
+                setMenuStyle();
             }
         });
 
@@ -62,6 +63,7 @@ public class ClientView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 configPanel.getHostPanel().setVisible(false);
                 salePanel.getSalePanel().setVisible(true);
+                setMenuStyle();
             }
         });
     }
@@ -90,6 +92,28 @@ public class ClientView extends JFrame {
     private void applyMainStyle(){
         this.mainPanel.setBackground(Color.GRAY);
         this.mainPanel.setForeground(Color.LIGHT_GRAY);
+
+    }
+
+
+
+    private void setMenuStyle(){
+        if (configPanel.getHostPanel().isVisible()){
+            btnSales.setBackground(new Color(28,43,50));
+            btnSales.setForeground(Color.WHITE);
+            btnConfig.setBackground(new Color(240,240,240));
+            btnConfig.setForeground(new Color(28,43,50));
+        } else if(salePanel.getSalePanel().isVisible()){
+            btnSales.setBackground(new Color(240,240,240));
+            btnSales.setForeground(new Color(28,43,50));
+            btnConfig.setBackground(new Color(28,43,50));
+            btnConfig.setForeground(Color.WHITE);
+        } else {
+            btnSales.setBackground(new Color(28,43,50));
+            btnSales.setForeground(Color.WHITE);
+            btnConfig.setBackground(new Color(28,43,50));
+            btnConfig.setForeground(Color.WHITE);
+        }
 
     }
 }

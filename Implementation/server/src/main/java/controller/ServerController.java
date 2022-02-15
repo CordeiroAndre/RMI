@@ -18,7 +18,7 @@ public class ServerController {
 
     private List<ProductItem> productItemList = new ArrayList<>();
     private DefaultListModel<ProductItem> productItemListModel = new DefaultListModel<>();
-    private ServerView serverView;
+    private static ServerView serverView;
     private static Registry registry;
 
     public ServerController(ServerView serverView) {
@@ -124,6 +124,7 @@ public class ServerController {
             System.setProperty("java.rmi.server.hostname",host);
             if (registry == null)
                 this.registry = LocateRegistry.createRegistry(port);
+            updateList();
         } catch (RemoteException e) {
             e.printStackTrace();
             return false;

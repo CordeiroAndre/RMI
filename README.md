@@ -18,6 +18,7 @@ seriam teria um sistema simples "Clients" que só pode operar sobre o estoque ef
 - **"Troca de mensagens"**: “exportação” de objetos entre as classes, operando os métodos de objetos implementados no server como: identificação dos produtos no registry, leitura da quantidade em estoque e venda / baixa de produtos
 - **Padrões de projeto**: MVC, Strategy
 
+**Configure o host e porta nas aplicações no início**
 ---
 
 ## Server

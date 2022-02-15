@@ -87,7 +87,7 @@
               </grid>
             </constraints>
             <properties>
-              <background color="-2302756"/>
+              <background color="-12557453"/>
               <enabled value="true"/>
               <font name="JetBrains Mono" size="0" style="1"/>
               <opaque value="true"/>
@@ -100,7 +100,7 @@
                 </constraints>
                 <properties>
                   <font name="JetBrains Mono" size="16" style="0"/>
-                  <foreground color="-14931150"/>
+                  <foreground color="-1"/>
                   <horizontalAlignment value="0"/>
                   <horizontalTextPosition value="0"/>
                   <text value="Sistema de Vendas RMI"/>

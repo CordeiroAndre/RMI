@@ -22,13 +22,13 @@ public class SaleView  extends JPanel{
     private JButton btUpdateList;
     private JList lsItems;
 
-    SaleController saleController = new SaleController(this);
+    SaleController saleController;
 
     public SaleView() {
+        saleController = new SaleController(this);
         applyButtonsStyle(btUpdateList,btFilter,btReset,btSell);
 
         lsItems.clearSelection();
-        saleController.updateList();
 
         btUpdateList.addActionListener(new ActionListener() {
             @Override
@@ -85,6 +85,8 @@ public class SaleView  extends JPanel{
             public void actionPerformed(ActionEvent e) {
                 tfFilter.setText("");
                 btFilter.setEnabled(false);
+                btReset.setEnabled(false);
+                saleController.updateList();
             }
         });
         btFilter.addActionListener(new ActionListener() {

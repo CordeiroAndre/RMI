@@ -52,8 +52,8 @@ public class ServerView extends JFrame{
         btRemove.setEnabled(false);
 
         leftPanel.setVisible(true);
-        rightPanel.setVisible(true);
-        rightConfigPanel.setVisible(false);
+        rightPanel.setVisible(false);
+        rightConfigPanel.setVisible(true);
 
 
         pack();
@@ -122,6 +122,7 @@ public class ServerView extends JFrame{
                 rightPanel.setVisible(false);
                 hostPanel.getHostPanel().setVisible(true);
                 rightConfigPanel.setVisible(true);
+                setMenuStyle();
             }
         });
         btnSales.addActionListener(new ActionListener() {
@@ -129,6 +130,7 @@ public class ServerView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 rightConfigPanel.setVisible(false);
                 rightPanel.setVisible(true);
+                setMenuStyle();
             }
         });
         lstProduct.addListSelectionListener(new ListSelectionListener() {
@@ -205,6 +207,7 @@ public class ServerView extends JFrame{
             button.setSelected(false);
             button.setFocusPainted(false);
             button.setOpaque(true);
+            setMenuStyle();
         }
 
     }
@@ -216,6 +219,26 @@ public class ServerView extends JFrame{
         tfDescription.setText(description);
         tfPrice.setText(price);
         tfQty.setText(qty);
+
+    }
+
+    private void setMenuStyle(){
+        if (rightConfigPanel.isVisible()){
+            btnSales.setBackground(Color.DARK_GRAY);
+            btnSales.setForeground(Color.WHITE);
+            btnConfig.setBackground(new Color(240,240,240));
+            btnConfig.setForeground(Color.DARK_GRAY);
+        } else if(rightPanel.isVisible()){
+            btnSales.setBackground(new Color(240,240,240));
+            btnSales.setForeground(Color.DARK_GRAY);
+            btnConfig.setBackground(Color.DARK_GRAY);
+            btnConfig.setForeground(Color.WHITE);
+        } else {
+            btnSales.setBackground(Color.DARK_GRAY);
+            btnSales.setForeground(Color.WHITE);
+            btnConfig.setBackground(Color.DARK_GRAY);
+            btnConfig.setForeground(Color.WHITE);
+        }
 
     }
 
