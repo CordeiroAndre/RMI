@@ -22,13 +22,6 @@ public class ServerController {
     private static Registry registry;
 
     public ServerController(ServerView serverView) {
-
-        // Cria do Registry
-        try {
-            registry = LocateRegistry.createRegistry(9000);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
         this.serverView = serverView;
     }
 
@@ -49,8 +42,6 @@ public class ServerController {
                     productItem.setQuantidadeEstoque(product.getInventoryQty());
                     productItem.setPrice(product.getPrice());
                     productItem.setDescription(product.getDescription());
-//                    Product stub = (Product) UnicastRemoteObject.exportObject(product, 0);
-//                    registry.rebind(productItem.getId(),stub);
                 }
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -128,9 +119,11 @@ public class ServerController {
 
     }
 
-    public boolean updateRemoteConfig(int port) {
+    public boolean updateRemoteConfig(String host,int port) {
         try {
-            registry = LocateRegistry.createRegistry(port);
+            System.setProperty("java.rmi.server.hostname",host);
+            if (registry == null)
+                this.registry = LocateRegistry.createRegistry(port);
         } catch (RemoteException e) {
             e.printStackTrace();
             return false;

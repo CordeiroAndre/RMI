@@ -50,11 +50,10 @@ public class ConfigController {
         if (port <= 0)
             return false;
 
-        System.setProperty("java.rmi.server.hostname",hostValue);
         configModel.setHost(hostValue);
         configModel.setPort(port);
 
         ServerController serverController = new ServerController();
-        return serverController.updateRemoteConfig(port);
+        return serverController.updateRemoteConfig(hostValue,port);
     }
 }
